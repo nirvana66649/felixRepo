@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15.2-alpine  # 使用PostgreSQL镜像
+    environment:
+      POSTGRES_DB: tripplanner  # 数据库名称改为 tripplanner
+      POSTGRES_USER: user         # 设置数据库用户名
+      POSTGRES_PASSWORD: secret   # 设置数据库密码
+    volumes:
+      - tripplanner-pg-local:/var/lib/postgresql/data  # 使用本地卷
+    ports:
+      - "5432:5432"  # PostgreSQL的默认端口
+
+volumes:
+  tripplanner-pg-local:  # 定义正确的卷名称，确保和服务中的卷一致

@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: TripPlanner
+
+  jackson:
+    default-property-inclusion: non_null #cover the null
+    property-naming-strategy: SNAKE_CASE #修改命名风格
+
+  datasource:
+    url: jdbc:postgresql://${DATABASE_URL:localhost}:${DATABASE_PORT:5432}/tripplanner #添加数据库链接
+    username: ${DATABASE_USERNAME:user} #username pw 使用环境变量赋值
+    password: ${DATABASE_PASSWORD:secret}
+    driver-class-name: org.postgresql.Driver #driver
+
+  cache:
+    cache-names: tripPlanCache
+    caffeine:
+      spec: maximumSize=10000,expireAfterWrite=10m
+
+  sql:
+    init:
+      mode: ${INIT_DB:always} #文件启动的时候默认到位置启动
+      schema-locations: "classpath:database-init.sql" #规定.sql的文件的位置
+
+
+logging:
+  level:
+    org.apache.coyote.http11.Http11InputBuffer: TRACE # Incoming HTTP requests
+    org.springframework.jdbc.datasource.init: DEBUG
+    org.springframework.jdbc.core: DEBUG #SQL
